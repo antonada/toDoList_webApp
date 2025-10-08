@@ -1,9 +1,37 @@
 ﻿@page
-@model IndexModel
+@model toDoList.Pages.IndexModel
 @{
-    ViewData["Title"] = "ToDo-list";
+    ViewData["Title"] = "ToDo List";
 }
 
-<h1>@ViewData["Title"] </h1>
-<p>Hi! This mine To Do List</p>
+<h1>@ViewData["Title"]</h1>
+
+<form method="post" asp-page-handler="Add">
+    <input asp-for="NewTitle" placeholder="Enter a new task" />
+    <button type="submit">Add</button>
+</form>
+
+<hr />
+
+<ul>
+    @foreach (var item in Model.Items)
+    {
+        <li style="margin:8px 0;">
+            <form method="post" style="display:inline" asp-page-handler="Toggle">
+                <input type="hidden" name="id" value="@item.Id" />
+                <button type="submit">@((item.IsDone) ? "↺" : "✓")</button>
+            </form>
+
+            <span style="margin:0 8px; @(item.IsDone ? "text-decoration: line-through; color: gray" : "")">
+                @item.Title
+            </span>
+
+
+            <form method="post" style="display:inline" asp-page-handler="Delete">
+                <input type="hidden" name="id" value="@item.Id" />
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    }
+</ul>
 
