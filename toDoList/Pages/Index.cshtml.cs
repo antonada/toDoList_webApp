@@ -19,7 +19,6 @@ namespace toDoList.Pages
             _service = service;
         }
 
-
         public void OnGet()
         {
             Items = _service.GetAll();
@@ -39,7 +38,6 @@ namespace toDoList.Pages
             _service.Toggle(id);
             return RedirectToPage();
         }
-
         public IActionResult OnPostDelete(int id)
         {
             _service.Remove(id);
@@ -47,3 +45,4 @@ namespace toDoList.Pages
         }
     }
 }
+

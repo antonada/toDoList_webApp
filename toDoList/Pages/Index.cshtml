@@ -6,6 +6,78 @@
 
 <h1>@ViewData["Title"]</h1>
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        max-width: 600px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    input[type="text"] {
+        padding: 8px;
+        width: 70%;
+        font-size: 16px;
+    }
+
+    button {
+        padding: 6px 12px;
+        font-size: 16px;
+        margin-left: 4px;
+        cursor: pointer;
+        border: none;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+
+        button:hover {
+            background-color: #ddd;
+        }
+
+        button.delete {
+            background-color: #f44336;
+            color: white;
+        }
+
+            button.delete:hover {
+                background-color: #e53935;
+            }
+
+        button.toggle {
+            background-color: #4caf50;
+            color: white;
+        }
+
+            button.toggle:hover {
+                background-color: #45a049;
+            }
+
+    ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    li {
+        margin: 8px 0;
+        display: flex;
+        align-items: center;
+    }
+
+        li span {
+            flex-grow: 1;
+        }
+
+        li form {
+            display: inline;
+            margin: 0;
+        }
+
+        li span.done {
+            text-decoration: line-through;
+            color: gray;
+        }
+</style>
+
 <form method="post" asp-page-handler="Add">
     <input asp-for="NewTitle" placeholder="Enter a new task" />
     <button type="submit">Add</button>
@@ -16,20 +88,17 @@
 <ul>
     @foreach (var item in Model.Items)
     {
-        <li style="margin:8px 0;">
-            <form method="post" style="display:inline" asp-page-handler="Toggle">
+        <li>
+            <form method="post" asp-page-handler="Toggle">
                 <input type="hidden" name="id" value="@item.Id" />
-                <button type="submit">@((item.IsDone) ? "↺" : "✓")</button>
+                <button type="submit" class="toggle">@((item.IsDone) ? "↺" : "✓")</button>
             </form>
 
-            <span style="margin:0 8px; @(item.IsDone ? "text-decoration: line-through; color: gray" : "")">
-                @item.Title
-            </span>
+            <span class="@(item.IsDone ? "done" : "")" style="margin:0 8px;">@item.Title</span>
 
-
-            <form method="post" style="display:inline" asp-page-handler="Delete">
+            <form method="post" asp-page-handler="Delete">
                 <input type="hidden" name="id" value="@item.Id" />
-                <button type="submit">Delete</button>
+                <button type="submit" class="delete">Delete</button>
             </form>
         </li>
     }
